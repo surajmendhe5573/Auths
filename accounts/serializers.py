@@ -7,8 +7,8 @@ User = get_user_model()
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'age', 'description')
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ('username', 'email', 'password', 'age', 'description', 'gender')
+        extra_kwargs = {'password': {'write_only': True}, 'gender': {'required': True}}
 
     def create(self, validated_data):
         user = User.objects.create_user(
@@ -16,7 +16,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             password=validated_data['password'],
             age=validated_data.get('age'),
-            description=validated_data.get('description')
+            description=validated_data.get('description'),
+            gender=validated_data.get('gender')
         )
         return user
     
@@ -24,7 +25,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         if len(value) < 10:
             raise serializers.ValidationError('Description must be at least 10 characters long.')
         return value
-
+    
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -43,4 +44,4 @@ class LoginSerializer(serializers.Serializer):
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'age', 'description')
+        fields = ('id', 'username', 'email', 'age', 'description', 'gender')
