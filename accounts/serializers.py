@@ -19,6 +19,11 @@ class RegisterSerializer(serializers.ModelSerializer):
             description=validated_data.get('description')
         )
         return user
+    
+    def validate_description(self, value):
+        if len(value) < 10:
+            raise serializers.ValidationError('Description must be at least 10 characters long.')
+        return value
 
 
 class LoginSerializer(serializers.Serializer):
