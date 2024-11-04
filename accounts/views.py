@@ -50,7 +50,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def update(self, request, *args, **kwargs):
         user = self.get_object()
-        serializer = self.get_serializer(user, data=request.data, partial=True)  # Use partial=True to allow partial updates
+        serializer = self.get_serializer(user, data=request.data, partial=True)  
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "User updated successfully", "data": serializer.data}, status=status.HTTP_200_OK)
